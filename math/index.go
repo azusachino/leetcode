@@ -44,3 +44,23 @@ func canMakeArithmeticProgression1(arr []int) bool {
 	}
 	return true
 }
+
+// 在 [1, n/2] 区间内搜索，只要有一组满足条件的解就 break。
+func getNoZeroIntegers(n int) [2]int {
+	for i := 1; i <= n/2; i++ {
+		if !hasZero(i) && !hasZero(n-i) {
+			return [2]int{i, n - i}
+		}
+	}
+	return [2]int{}
+}
+
+func hasZero(n int) bool {
+	for n > 0 {
+		if n%10 == 0 {
+			return true
+		}
+		n /= 10
+	}
+	return false
+}
