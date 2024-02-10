@@ -6,4 +6,4 @@ leetcode practices
 
 - [LeetCode](https://leetcode.com)
 - [LeetCode Cookbook](https://books.halfrost.com/leetcode/)
-- [Go staticcheck](https://staticcheck.io/docs/configuration/)
+- [Go staticcheck](https://staticcheck.dev/docs/configuration/)
