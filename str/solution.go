@@ -20,3 +20,24 @@ func countSubstrings(s string) int {
 	}
 	return count
 }
+
+func firstPalindrome(words []string) string {
+	for _, w := range words {
+		if isPalindrome(w) {
+			return w
+		}
+	}
+	return ""
+}
+
+func isPalindrome(s string) bool {
+	l, r := 0, len(s)-1
+	for l < r {
+		if s[l] != s[r] {
+			return false
+		}
+		l++
+		r--
+	}
+	return true
+}
