@@ -1,5 +1,9 @@
 package array
 
+import (
+	"sort"
+)
+
 // majorityElement len(nums) >= 1
 func majorityElement(nums []int) int {
 	// base case
@@ -70,4 +74,76 @@ func removeDuplicates(nums []int) int {
 	}
 	// count rather than index
 	return slow + 1
+}
+
+// rearrangeArray check https://leetcode.com/problems/rearrange-array-elements-by-sign
+func rearrangeArray(nums []int) []int {
+	res := make([]int, len(nums))
+	posIndex, negIndex := 0, 1
+	for _, n := range nums {
+		if n > 0 {
+			res[posIndex] = n
+			posIndex += 2
+		} else {
+			res[negIndex] = n
+			negIndex += 2
+		}
+	}
+	return res
+}
+
+// largestPerimeter https://leetcode.com/problems/find-polygon-with-the-largest-perimeter/
+func largestPerimeter(nums []int) int64 {
+	sort.Ints(nums)
+	var res int64
+
+	n := len(nums)
+	for i := 0; i < n; i++ {
+		res += int64(nums[i])
+	}
+
+	for i := n - 1; i > 1; i-- {
+		res -= int64(nums[i])
+		if int64(nums[i]) < res {
+			return res + int64(nums[i])
+		}
+	}
+	return -1
+}
+
+// calculatePrefixSum
+func calculatePrefixSum(nums []int) []int {
+	n := len(nums)
+
+	prefixSum := make([]int, n)
+
+	// init
+	prefixSum[0] = nums[0]
+
+	for i := 1; i < n; i++ {
+		prefixSum[i] = prefixSum[i-1] + nums[i]
+	}
+
+	return prefixSum
+}
+
+func findLeastNumOfUniqueInts(arr []int, k int) int {
+	d := make(map[int]int)
+	for _, v := range arr {
+		d[v]++
+	}
+	var freq []int
+	for _, v := range d {
+		freq = append(freq, v)
+	}
+	sort.Ints(freq)
+	for i := 0; i < len(freq); i++ {
+		if k >= freq[i] {
+			k -= freq[i]
+			freq[i] = 0
+		} else {
+			return len(freq) - i
+		}
+	}
+	return 0
 }
