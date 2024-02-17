@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+// how to run gotest: go test -v -timeout 30s -run ^TestFurthestBuilding$ github.com/azusachino/leetcode/array
+
 func TestLargestPerimeter(t *testing.T) {
 	nums := []int{5, 5, 5}
 	var helper = func(nums []int) int64 {
@@ -25,4 +27,10 @@ func TestLargestPerimeter(t *testing.T) {
 		return -1
 	}
 	helper(nums)
+}
+
+func TestFurthestBuilding(t *testing.T) {
+	heights := []int{4, 2, 7, 6, 9, 14, 12}
+	result := furthestBuilding(heights, 5, 1)
+    t.Logf("r: %v\n", result)
 }
