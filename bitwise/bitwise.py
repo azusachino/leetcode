@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Solution:
     def addBinary(self, a: str, b: str) -> str:
         stack = []
@@ -25,4 +28,13 @@ class Solution:
         for _ in range(32):
             res = (res << 1) + (n & 1)
             n >>= 1
+        return res
+
+    def missingNumber(self, nums: List[int]) -> int:
+        n = len(nums)
+        res = n
+        for i in range(n):
+            # a ^ a = 0
+            # b ^ 0 = b
+            res ^= i ^ nums[i]
         return res

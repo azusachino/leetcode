@@ -2,13 +2,6 @@
 
 leetcode practices
 
-## Tips
-
-```sh
-# run go test with Stdout, -v (aka verbose)
-go test -v -timeout 30s -run ^TestFurthestBuilding$ github.com/azusachino/leetcode/array
-```
-
 ## References
 
 - [LeetCode](https://leetcode.com)
