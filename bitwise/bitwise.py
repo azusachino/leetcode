@@ -38,3 +38,15 @@ class Solution:
             # b ^ 0 = b
             res ^= i ^ nums[i]
         return res
+
+    def rangeBitwiseAnd(self, left: int, right: int) -> int:
+        if right > left:
+            return self.rangeBitwiseAnd(left // 2, right // 2) << 1
+        else:
+            return left
+
+
+if __name__ == "__main__":
+    s = Solution()
+    print("rangeBitwiseAnd ", s.rangeBitwiseAnd(5, 7))
+    print(5 & 6 & 7)
