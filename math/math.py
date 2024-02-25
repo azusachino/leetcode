@@ -1,3 +1,4 @@
+from math import gcd
 from typing import List
 
 
@@ -36,6 +37,23 @@ class AnotherSolution:
         for n in nums:
             nums_sum += n
         return total - nums_sum
+
+    def canTraverseAllPairs(self, nums: List[int]) -> bool:
+        nums = set(nums)
+        if 1 in nums:
+            return False
+        n = len(nums)
+        if n == 1:
+            return True
+        nums = sorted(nums, reverse=True)
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                if gcd(nums[i], nums[j]) - 1:
+                    nums[j] *= nums[i]
+                    break
+            else:
+                return False
+        return True
 
 
 if __name__ == "__main__":
