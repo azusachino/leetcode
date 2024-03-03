@@ -12,6 +12,21 @@ class Solution:
                 return i
         return -1
 
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        l, r = 0, n - 1
+        p = n - 1
+        ret = [-1]*n
+        while l <= r:
+            if abs(nums[l]) > abs(nums[r]):
+                ret[p] = nums[l] ** 2
+                l += 1
+            else:
+                ret[p] = nums[r] ** 2
+                r -= 1
+            p -= 1
+        return ret
+
 
 if __name__ == "__main__":
     s = Solution()
