@@ -16,7 +16,7 @@ class Solution:
         n = len(nums)
         l, r = 0, n - 1
         p = n - 1
-        ret = [-1]*n
+        ret = [-1] * n
         while l <= r:
             if abs(nums[l]) > abs(nums[r]):
                 ret[p] = nums[l] ** 2
@@ -27,10 +27,34 @@ class Solution:
             p -= 1
         return ret
 
+    def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
+        tokens.sort()
+        l, r = 0, len(tokens) - 1
+        result = 0
+        score = 0
+        while l <= r:
+            if power >= tokens[l]:
+                power -= tokens[l]
+                score += 1
+                l += 1
+            else:
+                if score:
+                    power += tokens[r]
+                    score -= 1
+                    r -= 1
+                else:
+                    break
+            result = max(result, score)
+        return result
+
 
 if __name__ == "__main__":
     s = Solution()
-    n = 3
-    trust = [[1, 3], [2, 3]]
-    r = s.findJudge(n, trust)
-    print("findJudge: ", r)
+    # n = 3
+    # trust = [[1, 3], [2, 3]]
+    # r = s.findJudge(n, trust)
+    # print("findJudge: ", r)
+    tokens = [10, 33, 41, 91, 47, 84, 98, 34, 48, 70]
+    power = 43
+    r = s.bagOfTokensScore(tokens, power)
+    print("bagOfTokensScore", r)
