@@ -15,3 +15,12 @@ class Solution:
                 cur -= 1
             result = max(result, cur)
         return result
+
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+        highest = 0
+        ret = 0
+        for i in range(n - 1, -1, -1):
+            ret = max(ret, highest - prices[i])
+            highest = max(highest, prices[i])
+        return ret

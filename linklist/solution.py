@@ -18,6 +18,25 @@ class Solution:
 
         return dummy.next
 
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        if not head:
+            return False
+        s = f = head
+        while f and f.next:
+            s = s.next
+            f = f.next.next
+            # compare address
+            if s is f:
+                return True
+        return False
+
+    def middle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        s = f = head
+        while f and f.next:
+            s = s.next
+            f = f.next.next
+        return s
+
 
 if __name__ == "__main__":
     s = Solution()
