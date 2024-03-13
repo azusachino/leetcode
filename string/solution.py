@@ -1,3 +1,6 @@
+import collections
+
+
 class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
         i, j = 0, 0
@@ -28,6 +31,23 @@ class Solution:
             x[char] = word
             y[word] = char
         return True
+
+    def customSortString(self, order: str, s: str) -> str:
+        ret = ""
+        c = collections.Counter(s)
+        for o in order:
+            if o in c:
+                ret += o * c[o]
+                # del c[o]
+                c[o] = 0
+        # not_in_order = ""
+        # for k, v in c.items():
+        #     not_in_order += k * v
+        # return ret + not_in_order
+        for n in s:
+            if c[n]:
+                ret += n
+        return ret
 
 
 if __name__ == "__main__":
