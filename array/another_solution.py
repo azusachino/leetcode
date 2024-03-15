@@ -24,3 +24,33 @@ class Solution:
             ret = max(ret, highest - prices[i])
             highest = max(highest, prices[i])
         return ret
+
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        """
+        TLE
+        """
+        n = len(nums)
+        cnt = 0
+        for i in range(n):
+            cur = 0
+            for j in range(i, n):
+                cur += nums[j]
+                if cur == goal:
+                    cnt += 1
+                elif cur > goal:
+                    break
+
+        return cnt
+
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        ret = [1] * n
+        cur = 1
+        for i in range(n):
+            ret[i] *= cur
+            cur *= nums[i]
+        cur = 1
+        for i in range(n - 1, -1, -1):
+            ret[i] *= cur
+            cur *= nums[i]
+        return ret

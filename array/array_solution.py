@@ -1,4 +1,5 @@
 import collections
+import math
 from typing import List
 
 
@@ -91,6 +92,31 @@ class Solution:
     def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
         return list(set(nums1).intersection(set(nums2)))
 
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        c = collections.Counter({0: 1})
+        psum = res = 0
+        for i in nums:
+            psum += i
+            res += c[psum - goal]
+            c[psum] += 1
+        return res
+
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        ret = [0] * n
+        pre = [1 for _ in range(n)]
+        suffix = [1] * n
+        for i in range(1, n):
+            pre[i] = pre[i - 1] * nums[i - 1]
+
+        for j in range(n - 2, -1, -1):
+            suffix[j] = suffix[j + 1] * nums[j + 1]
+
+        for i in range(n):
+            ret[i] = pre[i] * suffix[i]
+
+        return ret
+
 
 if __name__ == "__main__":
     solution = Solution()
@@ -105,5 +131,8 @@ if __name__ == "__main__":
     # s = "bbbbbbbbbbbbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbccbcbcbccbbabbb"
     # r = solution.minimumLength(s)
     # print("minimumLength", r)
-    nums = [10, 12, 11, 9, 6, 19, 11]
-    print(solution.maxFrequencyElements(nums))
+    # nums = [10, 12, 11, 9, 6, 19, 11]
+    # print(solution.maxFrequencyElements(nums))
+    # nums = [1, 0, 1, 0, 1]
+    # print(solution.numSubarraysWithSum(nums, 2))
+    print(math.prod({}))
