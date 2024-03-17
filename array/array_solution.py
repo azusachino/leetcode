@@ -117,6 +117,67 @@ class Solution:
 
         return ret
 
+    def findMaxLength(self, nums: List[int]) -> int:
+        """
+        public class Solution {
+            public int findMaxLength(int[] nums) {
+                for (int i = 0; i < nums.length; i++) {
+                    if (nums[i] == 0) nums[i] = -1;
+                }
+
+                Map<Integer, Integer> sumToIndex = new HashMap<>();
+                sumToIndex.put(0, -1);
+                int sum = 0, max = 0;
+
+                for (int i = 0; i < nums.length; i++) {
+                    sum += nums[i];
+                    if (sumToIndex.containsKey(sum)) {
+                        max = Math.max(max, i - sumToIndex.get(sum));
+                    }
+                    else {
+                        sumToIndex.put(sum, i);
+                    }
+                }
+
+                return max;
+            }
+        }
+        """
+        n = len(nums)
+        for i in range(n):
+            if nums[i] == 0:
+                nums[i] = -1
+        sum_to_index = {0: -1}
+        sum_ = max_ = 0
+        for i in range(n):
+            sum_ += nums[i]
+            if sum_ in sum_to_index:
+                max_ = max(max_, i - sum_to_index[sum_])
+            else:
+                sum_to_index[sum_] = i
+        return max_
+
+    def insert(
+        self, intervals: List[List[int]], newInterval: List[int]
+    ) -> List[List[int]]:
+        ret = []
+        i = 0
+        n = len(intervals)
+        while i < n and intervals[i][1] < newInterval[0]:
+            ret.append(intervals[i])
+            i += 1
+        while i < n and intervals[i][0] < newInterval[1]:
+            newInterval = [
+                min(newInterval[0], intervals[i][0]),
+                max(newInterval[1], intervals[i][1]),
+            ]
+            i += 1
+        ret.append(newInterval)
+        while i < n:
+            ret.append(intervals[i])
+            i += 1
+        return ret
+
 
 if __name__ == "__main__":
     solution = Solution()
