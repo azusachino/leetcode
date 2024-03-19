@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Solution:
 
     def isValid(self, s: str) -> bool:
@@ -28,6 +31,21 @@ class Solution:
         if r:
             return r
         return "/"
+
+    def asteroidCollision(self, nums: List[int]) -> List[int]:
+        stk = []
+        for n in nums:
+            while stk and n < 0 and stk[-1] > 0:
+                bang = stk[-1] + n
+                # in stack positive, crashed
+                if bang <= 0:
+                    stk.pop()
+                # in flight negative, crashed
+                if bang >= 0:
+                    break
+            else:
+                stk.append(n)
+        return stk
 
 
 if __name__ == "__main__":

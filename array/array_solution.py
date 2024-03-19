@@ -178,6 +178,19 @@ class Solution:
             i += 1
         return ret
 
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        if not points:
+            return 0
+        points.sort(key=lambda x: x[1])
+        max_ = points[0][1]
+        cnt = 1
+        for point in points:
+            # merge interval
+            if point[0] > max_:
+                cnt += 1
+                max_ = point[1]
+        return cnt
+
 
 if __name__ == "__main__":
     solution = Solution()
@@ -196,4 +209,5 @@ if __name__ == "__main__":
     # print(solution.maxFrequencyElements(nums))
     # nums = [1, 0, 1, 0, 1]
     # print(solution.numSubarraysWithSum(nums, 2))
-    print(math.prod({}))
+    points = [[1, 2], [3, 4], [5, 6], [7, 8]]
+    print(solution.findMinArrowShots(points))
