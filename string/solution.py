@@ -49,6 +49,27 @@ class Solution:
                 ret += n
         return ret
 
+    def minimumDeletions(self, word: str, k: int) -> int:
+        """
+        1. calculate character frequencies
+        2. delete characters for two reasons
+            2.1 delete the small frequency to zero, so it doesn't count for the rule
+            2.2 delete the big frequency smaller, so it `big freq - small freq <= k`
+                and don't reduce small freq to smaller positive
+        """
+        freq = collections.Counter(word).values()
+        # in worst case, delete all
+        res = len(word)
+        for a in freq:
+            cur = 0
+            for b in freq:
+                if b < a:
+                    cur += b
+                else:
+                    cur += max(0, b - (a + k))
+            res = min(res, cur)
+        return res
+
 
 if __name__ == "__main__":
     solution = Solution()

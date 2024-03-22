@@ -55,6 +55,47 @@ class Solution:
             head = head.next
         return dummy.next
 
+    def mergeInBetween(
+        self, list1: ListNode, a: int, b: int, list2: ListNode
+    ) -> ListNode:
+        dummy = ListNode()
+        dummy.next = list1
+        prev = None
+        cur = dummy
+        for _ in range(a + 1):
+            prev = cur
+            cur = cur.next
+        prev.next = list2
+        for _ in range(a, b + 1):
+            cur = cur.next
+        while list2.next:
+            list2 = list2.next
+        list2.next = cur
+        return dummy.next
+
+    def checkPalindrome(self, head: ListNode) -> bool:
+        slow = fast = head
+        prev = None
+        # find median, and reverse the first half
+        while fast and fast.next:
+            fast = fast.next.next
+            nxt = slow.next
+            slow.next = prev
+            prev = slow
+            slow = nxt
+
+        # deal with odd counts
+        if fast:
+            slow = slow.next
+
+        # simply check equality
+        while slow and prev:
+            if slow.val != prev.val:
+                return False
+            slow = slow.next
+            prev = prev.next
+        return True
+
 
 if __name__ == "__main__":
     s = Solution()
