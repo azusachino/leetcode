@@ -96,6 +96,28 @@ class Solution:
             prev = prev.next
         return True
 
+    def aaa(self, head: Optional[ListNode]) -> None:
+        if not head:
+            return
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        prev, cur = None, slow.next
+        while cur:
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+
+        slow.next = None
+        h1, h2 = head, prev
+        while h2:
+            nxt = h1.nxt
+            h1.next = h2
+            h2 = h1
+            h1 = nxt
+
 
 if __name__ == "__main__":
     s = Solution()

@@ -70,6 +70,31 @@ class Solution:
             res = min(res, cur)
         return res
 
+    def isSubstringPresent(self, s: str) -> bool:
+        mp = collections.defaultdict(set)
+        n = len(s)
+        for i in range(1, n):
+            mp[s[i - 1]].add(s[i])
+        for i in range(1, n):
+            if s[i - 1] in mp[s[i]]:
+                return True
+        return False
+
+    def maximumLengthSubstring(self, s: str) -> int:
+        window = collections.defaultdict(int)
+        l = r = 0
+        ret = 0
+        while r < len(s):
+            window[s[r]] += 1
+            r += 1
+            max_freq = max(window.values())
+            if max_freq <= 2:
+                ret = max(ret, r - l)
+            else:
+                window[s[l]] -= 1
+                l += 1
+        return ret
+
 
 if __name__ == "__main__":
     solution = Solution()
@@ -77,3 +102,6 @@ if __name__ == "__main__":
     t = "ahbegdc"
     r = solution.isSubsequence(s, t)
     print("isSubsequence", r)
+    string = "adaddccdb"
+    n = len(string)
+    print(solution.maximumLengthSubstring(string))

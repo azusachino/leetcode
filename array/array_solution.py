@@ -1,6 +1,6 @@
-import collections
-import math
+from collections import defaultdict, Counter
 from typing import List
+from heapq import heappush, heappop
 
 
 class Solution:
@@ -77,7 +77,7 @@ class Solution:
         return ret
 
     def maxFrequencyElements(self, nums: List[int]) -> int:
-        d = collections.defaultdict(int)
+        d = defaultdict(int)
         for n in nums:
             d[n] += 1
         max_freq = 0
@@ -93,7 +93,7 @@ class Solution:
         return list(set(nums1).intersection(set(nums2)))
 
     def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
-        c = collections.Counter({0: 1})
+        c = Counter({0: 1})
         psum = res = 0
         for i in nums:
             psum += i
@@ -190,6 +190,59 @@ class Solution:
                 cnt += 1
                 max_ = point[1]
         return cnt
+
+    def findDuplicate(self, nums: List[int]) -> int:
+        """
+        287. https://leetcode.com/problems/find-the-duplicate-number
+        """
+        for n in nums:
+            idx = abs(n)
+            if nums[idx] < 0:
+                return idx
+            # if allow modification
+            nums[idx] = -nums[idx]
+        return -1
+
+    def findDuplicate_(self, nums: List[int]) -> int:
+        # slow, fast pointer to find `loop`
+        slow, fast = nums[0], nums[nums[0]]
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+        fast = 0
+        # re-iterate from start, to find target
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+        return slow
+
+    def mostFrequentIDs(self, nums: List[int], freq: List[int]) -> List[int]:
+        """
+        TLE
+        use priority_queue to improve performance
+        """
+        pq = []
+        ret = []
+        d = Counter()
+        for i, f in zip(nums, freq):
+            d[i] += f
+            #
+            heappush(pq, [-d[i], i])
+            while pq and -pq[0][0] != d[pq[0][1]]:
+                heappop(pq)
+            ret.append(-pq[0][0] if pq else 0)
+        return ret
+
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        res = []
+        # in case of out of bound
+        nums.insert(0, 0)
+        for n in nums:
+            idx = abs(n)
+            if nums[idx] < 0:
+                res.append(idx)
+            nums[idx] = -nums[idx]
+        return res
 
 
 if __name__ == "__main__":

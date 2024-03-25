@@ -1,4 +1,5 @@
 from typing import List
+import math
 
 
 class Solution:
@@ -20,6 +21,13 @@ class Solution:
                 return i
             l += i
         return -1
+
+    def minOperations(self, k: int) -> int:
+        """
+        Find min(a + b), so that (a + 1) * (b + 1) >= k.
+        """
+        v = math.isqrt(k)
+        return v + (k - 1) // v - 1
 
 
 if __name__ == "__main__":
