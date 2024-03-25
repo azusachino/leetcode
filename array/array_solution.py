@@ -244,6 +244,39 @@ class Solution:
             nums[idx] = -nums[idx]
         return res
 
+    def canJump(self, nums: List[int]) -> bool:
+        n = len(nums)
+        # last index
+        goal = n - 1
+        # loop from back
+        for i in range(n - 2, -1, -1):
+            if i + nums[i] >= goal:
+                goal = i
+        return goal == 0
+
+    def jump(self, nums: List[int]) -> int:
+        """
+        The main idea is based on greedy. Let's say the range of the current jump is [curBegin, curEnd],
+        curFarthest is the farthest point that all points in [curBegin, curEnd] can reach.
+        Once the current point reaches curEnd, then trigger another jump,
+        and set the new curEnd with curFarthest, then keep the above steps.
+        """
+        n = len(nums)
+        jumps = cur_end = cur_farthest = 0
+        for i in range(n - 1):
+            cur_farthest = max(cur_farthest, i + nums[i])
+            if i == cur_end:
+                jumps += 1
+                cur_end = cur_farthest
+        return jumps
+
+    def hIndex(self, nums: List[int]) -> int:
+        """
+        First we order the values of f from the largest to the lowest value.
+        Then, we look for the last position in which f is greater than or equal to the position (we call h this position)."
+        """
+        return sum(i < j for i, j in enumerate(sorted(nums, reverse=True)))
+
 
 if __name__ == "__main__":
     solution = Solution()
