@@ -277,6 +277,62 @@ class Solution:
         """
         return sum(i < j for i, j in enumerate(sorted(nums, reverse=True)))
 
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        st = set(nums)
+        for i in range(len(nums)):
+            if i + 1 not in st:
+                return i + 1
+        return len(nums) + 1
+
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n = len(nums)
+        # mark numbers (num <= 0 || num > n) with a special number marker (n+1), the worst case answer
+        for i in range(n):
+            if nums[i] <= 0 or nums[i] > n:
+                nums[i] = n + 1
+
+        for i in range(n):
+            idx = abs(nums[i])
+            if idx > n:
+                continue
+            # make number 1 be placed at index 0
+            idx -= 1
+            if nums[idx] > 0:
+                nums[idx] = -nums[idx]
+
+        for i in range(n):
+            if nums[i] >= 0:
+                return i + 1
+        return n + 1
+
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        res = [0] * n
+        prefix, suffix = [1] * n, [1] * n
+        for i in range(1, n):
+            prefix[i] = prefix[i - 1] * nums[i - 1]
+        for j in range(n - 2, -1, -1):
+            suffix[j] = suffix[j + 1] * nums[j + 1]
+        for idx in range(n):
+            res[idx] = prefix[idx] * suffix[idx]
+        return res
+
+    # Greedy
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        total = curr = start = 0
+
+        for i in range(len(gas)):
+            total += gas[i] - cost[i]  # keep track of total gas
+            curr += gas[i] - cost[i]  # keep track of current tank
+
+            if curr < 0:
+                # ran out of gas, start from next station
+                start = i + 1
+                curr = 0
+
+        # if we have not run out of gas, we made it
+        return start if total >= 0 else -1
+
 
 if __name__ == "__main__":
     solution = Solution()
@@ -295,5 +351,21 @@ if __name__ == "__main__":
     # print(solution.maxFrequencyElements(nums))
     # nums = [1, 0, 1, 0, 1]
     # print(solution.numSubarraysWithSum(nums, 2))
-    points = [[1, 2], [3, 4], [5, 6], [7, 8]]
-    print(solution.findMinArrowShots(points))
+    # points = [[1, 2], [3, 4], [5, 6], [7, 8]]
+    # print(solution.findMinArrowShots(points))
+    gas = [2, 3, 4]
+    cost = [3, 4, 3]
+    print(solution.canCompleteCircuit(gas, cost))
+
+
+class WrongSolutions:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        remain = []
+        sm = 0
+        for i, (x, y) in enumerate(zip(gas, cost)):
+            sm += x - y
+            heappush(remain, [-(x - y), i])
+        if sm < 0:
+            return -1
+        else:
+            return remain[0][1]
