@@ -1,6 +1,5 @@
-from typing import Optional
+from typing import List, Optional
 from local_tree import TreeNode
-from queue import Queue
 
 
 class Solution:
@@ -72,6 +71,28 @@ class Solution:
                     q.append(node.right)
             odd = not odd
         return True
+
+    def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
+        if n == 0:
+            return []
+        return self.buildTree(1, n)
+
+    def buildTree(self, lo, hi):
+        res = []
+        if lo > hi:
+            res.append(None)
+            return res
+        for i in range(lo, hi + 1):
+            left = self.buildTree(lo, i - 1)
+            right = self.buildTree(i + 1, hi)
+
+            for l in left:
+                for r in right:
+                    root = TreeNode(i)
+                    root.left = l
+                    root.right = r
+                    res.append(root)
+        return res
 
 
 if __name__ == "__main__":

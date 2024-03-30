@@ -1,3 +1,4 @@
+from collections import Counter
 from typing import List
 from math import gcd
 
@@ -30,6 +31,11 @@ class Solution:
             else:
                 return False
         return True
+
+    def countLargestGroup(self, n: int) -> int:
+        c = Counter(sum(map(int, list(str(i)))) for i in range(1, n + 1))
+        max_value = max(c)
+        return sum(v == max_value for v in c.values())
 
 
 class AlternativeSolution:
