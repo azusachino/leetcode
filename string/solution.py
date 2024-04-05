@@ -95,6 +95,45 @@ class Solution:
                 l += 1
         return ret
 
+    def maxDepth(self, s: str) -> int:
+        res = cur = 0
+        for c in s:
+            # constraint guaranteed validity
+            if c == "(":
+                cur += 1
+                res = max(res, cur)
+            elif c == ")":
+                cur -= 1
+        return res
+
+    def convert(self, s: str, numRows: int) -> str:
+        rows, idx = [""] * numRows, 0
+        # 0 or -1
+        step = (numRows == 1) - 1
+        for c in s:
+            rows[idx] += c
+            if idx == 0 or idx == numRows - 1:
+                step = -step
+            idx += step
+        return "".join(rows)
+
+    def sortVowels(self, s: str) -> str:
+        vowels = set(["a", "e", "u", "i", "o", "A", "E", "U", "I", "O"])
+        loc = [0] * len(s)
+        srt = []
+        for i, c in enumerate(s):
+            if c in vowels:
+                loc[i] = 1
+                srt.append(c)
+        srt.sort()
+        idx = 0
+        ss = list(s)
+        for i, c in enumerate(loc):
+            if c:
+                ss[i] = srt[idx]
+                idx += 1
+        return "".join(ss)
+
 
 if __name__ == "__main__":
     solution = Solution()
@@ -105,3 +144,5 @@ if __name__ == "__main__":
     string = "adaddccdb"
     n = len(string)
     print(solution.maximumLengthSubstring(string))
+    s_ = "PAYPALISHIRING"
+    print(solution.convert(s_, 3))

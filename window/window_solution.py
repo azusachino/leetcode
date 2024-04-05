@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, defaultdict
 from typing import List
 
 
@@ -82,8 +82,60 @@ class Solution:
             r += 1
         return res
 
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        """
+        30. Substring with Concatenation of All Words
+        """
+        res = []
+        freq = Counter(words)
+        word_len, word_num = len(words[0]), len(words)
+        total_len = word_len * word_num
+        for i in range(len(s) - total_len + 1):
+            seen = defaultdict(int)
+            for j in range(i, i + total_len, word_len):
+                cur = s[j : j + word_len]
+                if cur in freq:
+                    seen[cur] += 1
+                    if seen[cur] > freq[cur]:
+                        break
+                else:
+                    break
+            if seen == freq:
+                res.append(i)
+        return res
+
+    def minWindow(self, s: str, t: str) -> str:
+        n = len(s)
+        target = Counter(t)
+        window = defaultdict(int)
+        l = r = 0
+        valid = 0
+        start, length = 0, len(s) + 1
+        while r < n:
+            if s[r] in target:
+                window[s[r]] += 1
+                if window[s[r]] == target[s[r]]:
+                    valid += 1
+            while valid == len(target):
+                if r - l + 1 < length:
+                    start = l
+                    length = r - l + 1
+                ls = s[l]
+                l += 1
+                if ls in target:
+                    if window[ls] == target[ls]:
+                        valid -= 1
+                    window[ls] -= 1
+            r += 1
+        if length == len(s) + 1:
+            return ""
+        return s[start : start + length]
+
 
 if __name__ == "__main__":
     solution = Solution()
     nums = [1, 2, 1, 2, 3]
     print(solution.subarraysWithKDistinct(nums, 2))
+    s = "ADOBECODEBANC"
+    t = "ABC"
+    print(solution.minWindow(s, t))
