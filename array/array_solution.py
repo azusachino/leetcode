@@ -347,6 +347,13 @@ class Solution:
             pre_sum[cur] += 1
         return res
 
+    def minOperationsToMakeMedianK(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        nums.sort()
+        left_great = sum(max(0, nums[i] - k) for i in range(n // 2 + 1))
+        right_less = sum(max(0, k - nums[i]) for i in range(n // 2, n))
+        return left_great + right_less
+
 
 if __name__ == "__main__":
     solution = Solution()

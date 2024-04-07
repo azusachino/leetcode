@@ -47,6 +47,22 @@ class Solution:
                 stk.append(n)
         return stk
 
+    def checkValidString(self, s: str) -> bool:
+        min_need, max_need = 0, 0
+        for c in s:
+            if c == "(":
+                min_need += 1
+                max_need += 1
+            elif c == ")":
+                min_need -= 1
+                max_need -= 1
+            else:
+                min_need += 1
+                max_need -= 1
+            if max_need < 0:
+                return False
+            return min_need == 0
+
 
 if __name__ == "__main__":
     solution = Solution()
