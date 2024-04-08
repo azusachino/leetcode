@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import List, Optional
 from local_tree import TreeNode
 
@@ -93,6 +94,47 @@ class Solution:
                     root.right = r
                     res.append(root)
         return res
+
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+
+        pos = defaultdict(dict)
+
+        # track all nodes' position
+        def dfs(node, x, y):
+            pos[x].setdefault(y, [])
+            pos[x][y].append(node.val)
+            if node.left:
+                dfs(node.left, x - 1, y - 1)
+
+            if node.right:
+                dfs(node.right, x + 1, y - 1)
+
+        dfs(root, 0, 0)
+
+        """
+        defaultdict(<class 'dict'>, {0: {0: [1], -2: [5, 6]}, -1: {-1: [2]}, -2: {-2: [4]}, 1: {-1: [3]}, 2: {-2: [7]}})
+        """
+        # print(pos)
+
+        return [
+            # sort vertical in reverse to simulate result order, sort(pos[x])
+            ## in the same spot, smaller comes at first, sort(pos[x][y])
+            [val for y in sorted(pos[x], reverse=True) for val in sorted(pos[x][y])]
+            # return result from left to right, sort(pos)
+            for x in sorted(pos)
+        ]
+
+    # TODO smallestFromLeaf
+    def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
+
+        def dfs(node):
+            pass
+
+        dfs(root)
+
+        return ""
 
 
 if __name__ == "__main__":

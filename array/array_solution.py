@@ -354,6 +354,31 @@ class Solution:
         right_less = sum(max(0, k - nums[i]) for i in range(n // 2, n))
         return left_great + right_less
 
+    def sumEvenAfterQueries(
+        self, nums: List[int], queries: List[List[int]]
+    ) -> List[int]:
+        n = len(nums)
+        res = [0] * n
+
+        return res
+
+    def intervalIntersection(
+        self, a: List[List[int]], b: List[List[int]]
+    ) -> List[List[int]]:
+        res = []
+        m, n = len(a), len(b)
+        i = j = 0
+        while i < m and j < n:
+            a_start, a_end = a[i]
+            b_start, b_end = b[j]
+            if a_start <= b_end and b_start <= a_end:
+                res.append([max(a_start, b_start), min(a_end, b_end)])
+            if a_end <= b_end:
+                i += 1
+            else:
+                j += 1
+        return res
+
 
 if __name__ == "__main__":
     solution = Solution()
