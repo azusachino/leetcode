@@ -379,6 +379,62 @@ class Solution:
                 j += 1
         return res
 
+    def maxSatisfied(self, customers: List[int], grumpy: List[int], k: int) -> int:
+        n = len(customers)
+        # the base score we could ensure
+        res = sum([customers[i] * (1 - grumpy[i]) for i in range(n)])
+        # initial sliding window
+        best_gain = sum([customers[i] * grumpy[i] for i in range(k)])
+        gain = best_gain
+        for i in range(k, n):
+            # add new values, kick out old values
+            gain += customers[i] * grumpy[i] - customers[i - k] * grumpy[i - k]
+            best_gain = max(best_gain, gain)
+        return res + best_gain
+
+    def prevPermOpt1(self, arr: List[int]) -> List[int]:
+        """
+        1. 从右向左, 找到第一个逆序的 index
+        2. 如果找不到, 证明是有序的数组, 亦是最小的 permutation
+        3. 再以当前 index+1 向右找比当前 index 小, 但索引最大的值
+        4. 交换这两个数, 即是上一个 permutation
+        """
+        l = -1
+        n = len(arr)
+        for i in range(n - 1, 0, -1):
+            if arr[i - 1] > arr[i]:
+                l = i
+                break
+        if l == -1:
+            return arr
+        r = l + 1
+        for j in range(r, n):
+            if arr[j] < arr[l]:
+                r = j
+
+        arr[l], arr[r] = arr[r], arr[l]
+        return arr
+
+    def rearrangeBarcodes(self, nums: List[int]) -> List[int]:
+        """
+        1. Sort bar codes depending on its occurrence.
+        2. put the most frequent on every two positions,(first, third, fifth...)
+        """
+        n = len(nums)
+        count = Counter(nums)
+        res = [0] * n
+        # place number to 0,2,4...
+        idx = 0
+        # start with most freq number
+        for k, freq in count.most_common():
+            for _ in range(freq):
+                res[idx] = k
+                idx += 2
+                # then, place number to 1,3,5...
+                if idx >= n:
+                    idx = 1
+        return res
+
 
 if __name__ == "__main__":
     solution = Solution()
