@@ -131,6 +131,16 @@ class Solution:
             return ""
         return s[start : start + length]
 
+    def numKLenSubstrNoRepeats(self, s: str, k: int) -> int:
+        n = len(s)
+        if k > 26 or k > n:
+            return 0
+        res = 0
+        for i in range(n - k + 1):
+            if len(set(s[i : i + k])) == k:
+                res += 1
+        return res
+
 
 if __name__ == "__main__":
     solution = Solution()
@@ -139,3 +149,5 @@ if __name__ == "__main__":
     s = "ADOBECODEBANC"
     t = "ABC"
     print(solution.minWindow(s, t))
+    s = "havefunonleetcode"
+    print(solution.numKLenSubstrNoRepeats(s, 5))

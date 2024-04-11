@@ -56,3 +56,27 @@ class Solution:
         for s in stones:
             dp = {s + i for i in dp} | {abs(s - i) for i in dp}
         return min(dp)
+
+    def minHeightShelves(self, books: List[List[int]], shelfWidth: int) -> int:
+        n = len(books)
+        dp = [sys.maxsize] * (n + 1)
+        dp[0] = 0
+        for i in range(n):
+            cur_width = max_height = 0
+            for j in range(i, -1, -1):
+                cur_width += books[j][0]
+                if cur_width > shelfWidth:
+                    break
+                max_height = max(max_height, books[j][1])
+                dp[i + 1] = min(dp[i + 1], dp[j] + max_height)
+        return dp[n]
+
+    def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
+        n = len(arr)
+        dp = [0] * (n + 1)
+        for i in range(1, n + 1):
+            cur_max = 0
+            for j in range(1, min(k, i) + 1):
+                cur_max = max(cur_max, arr[i - j])
+                dp[i] = max(dp[i], dp[i - j] + cur_max * k)
+        return dp[n]

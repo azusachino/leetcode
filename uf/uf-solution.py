@@ -1,6 +1,32 @@
 from itertools import groupby
 from typing import List
-from uf import UF
+
+
+class UF:
+    def __init__(self, n):
+        self.data = list(range(n))
+        self.rank = [1] * n
+        self.cnt = n
+
+    def find(self, x):
+        if self.data[x] != x:
+            self.data[x] = self.find(self.data[x])
+        return self.data[x]
+
+    def union(self, x, y):
+        i, j = self.find(x), self.find(y)
+        if i == j:
+            return
+        if self.rank[i] >= self.rank[j]:
+            self.data[j] = i
+            self.rank[i] += self.rank[j]
+        else:
+            self.data[i] = j
+            self.rank[j] += self.rank[i]
+        self.cnt -= 1
+
+    def count(self):
+        return self.cnt
 
 
 class Solution:
@@ -45,9 +71,29 @@ class Solution:
                     arr[x] = i
         return uf.count() == 1
 
+    def earliestAcq(self, logs: List[List[int]], n: int) -> int:
+        logs.sort()
+        uf = UF(n)
+        for t, x, y in logs:
+            uf.union(x, y)
+            if uf.count() == 1:
+                return t
+        return -1
+
 
 if __name__ == "__main__":
     s = Solution()
     nums = [4, 3, 12, 8]
     r = s.canTraverseAllPairs(nums)
     print("canTraverseAllPairs", r)
+    logs = [
+        [20190101, 0, 1],
+        [20190104, 3, 4],
+        [20190107, 2, 3],
+        [20190211, 1, 5],
+        [20190224, 2, 4],
+        [20190301, 0, 3],
+        [20190312, 1, 2],
+        [20190322, 4, 5],
+    ]
+    print(s.earliestAcq(logs, 6))

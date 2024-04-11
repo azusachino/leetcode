@@ -1,3 +1,4 @@
+from bisect import bisect_left
 from collections import defaultdict, Counter
 from typing import List
 from heapq import heappush, heappop
@@ -434,6 +435,35 @@ class Solution:
                 if idx >= n:
                     idx = 1
         return res
+
+    def pathInZigZagTree(self, label: int) -> List[int]:
+        """
+        1. understand the position of each node in the normal tree
+        2. compare to zigzag version tree, get clear thought on how to calculate root node for each node
+        3. formula: (level_max + level_min - current) // 2
+        """
+        res = []
+        level = need = 1
+
+        # target value level calculation
+        while label >= need * 2:
+            need *= 2
+            level += 1
+        while label != 0:
+            res.append(label)
+            lmax, lmin = (2**level) - 1, 2 ** (level - 1)
+            label = (lmax + lmin - label) // 2
+            level -= 1
+        return res[::-1]
+
+    def twoSumLessThanK(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        ans = -1
+        for i, x in enumerate(nums):
+            j = bisect_left(nums, k - x, lo=i + 1) - 1
+            if i < j:
+                ans = max(ans, x + nums[j])
+        return ans
 
 
 if __name__ == "__main__":
