@@ -54,3 +54,17 @@ class Solution:
             ret[i] *= cur
             cur *= nums[i]
         return ret
+
+    def trap(self, h: List[int]) -> int:
+        l, r = 0, len(h) - 1
+        res = 0
+        high_bar, low_bar = 0, 0
+        while l < r:
+            low_bar = min(h[l], h[r])
+            high_bar = max(high_bar, low_bar)
+            res += high_bar - low_bar
+            if h[l] < h[r]:
+                l += 1
+            else:
+                r -= 1
+        return res

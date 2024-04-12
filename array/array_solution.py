@@ -465,6 +465,17 @@ class Solution:
                 ans = max(ans, x + nums[j])
         return ans
 
+    def trap(self, h: List[int]) -> int:
+        n = len(h)
+        # for each bar, track its surrounding highest bar
+        max_left, max_right = [0] * n, [0] * n
+        for i in range(1, n):
+            max_left[i] = max(max_left[i - 1], h[i - 1])
+        for j in range(n - 2, -1, -1):
+            max_right[j] = max(max_right[j + 1], h[j + 1])
+        # simply calculate for each bar
+        return sum(max(min(max_left[i], max_right[i]) - h[i], 0) for i in range(n))
+
 
 if __name__ == "__main__":
     solution = Solution()
