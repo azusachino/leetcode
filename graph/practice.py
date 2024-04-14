@@ -80,5 +80,6 @@ class Solution:
                                     q.append((a, b))
         return count
 
+
 if __name__ == "__main__":
     adj_table = {"a", ["b", "d"]}
