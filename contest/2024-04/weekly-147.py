@@ -11,7 +11,6 @@ class Solution:
     1139. Largest 1-Bordered Square
         https://leetcode.ca/2019-01-12-1139-Largest-1-Bordered-Square/
     1140. Stone Game II
-
     """
 
     def tribonacci(self, n: int) -> int:

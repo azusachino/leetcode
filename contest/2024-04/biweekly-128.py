@@ -1,8 +1,8 @@
-from collections import Counter, defaultdict, deque
+from collections import defaultdict
 import heapq
 from itertools import pairwise
 import sys
-from typing import List, Optional
+from typing import List
 
 
 class Solution:

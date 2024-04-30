@@ -58,6 +58,9 @@ class Solution:
         return 0
 
     def findKthSmallest(self, coins: List[int], k: int) -> int:
+        """
+        pq is feasible, but get TLE at contest
+        """
         pass
 
     def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:

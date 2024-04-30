@@ -126,15 +126,24 @@ class Solution:
             for x in sorted(pos)
         ]
 
-    # TODO smallestFromLeaf
     def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
+        alph = "abcdefghijklmnopqrstuvwxyz"
+        self.res = [26]
+        self.cur = []
 
         def dfs(node):
-            pass
+            self.cur.append(node.val)
+            if not node.left and not node.right:
+                self.res = min(self.res, self.cur[::-1])
+            if node.left:
+                dfs(node.left)
+            if node.right:
+                dfs(node.right)
+            self.cur.pop()
 
         dfs(root)
 
-        return ""
+        return "".join(alph[i] for i in range(self.res))
 
 
 if __name__ == "__main__":

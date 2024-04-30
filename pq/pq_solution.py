@@ -1,7 +1,7 @@
 import sys
 from typing import List
 import heapq
-from collections import Counter, deque
+from collections import Counter
 
 
 class PQItem:
