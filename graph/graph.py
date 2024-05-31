@@ -45,11 +45,40 @@ class Solution:
                     heapq.heappush(pq, PQ(price + adj[adj_city], adj_city, steps - 1))
         return -1
 
+    def criticalConnections(
+        self, n: int, connections: List[List[int]]
+    ) -> List[List[int]]:
+        graph = defaultdict(list)
+        for x, y in connections:
+            graph[x].append(y)
+            graph[y].append(x)
+
+        rank = [-2] * n
+        connections = set(map(tuple, map(sorted, connections)))
+
+        def dfs(node, depth):
+            if rank[node] >= 0:
+                return rank[node]
+            rank[node] = depth
+            min_depth = n
+            for j in graph[node]:
+                if rank[j] == depth - 1:
+                    continue
+                back_depth = dfs(j, depth + 1)
+                if back_depth <= depth:
+                    connections.remove(tuple(sorted(node, j)))
+                min_depth = min(min_depth, back_depth)
+            rank[node] = n
+            return min_depth
+
+        dfs(0, 0)
+        return list(connections)
+
 
 if __name__ == "__main__":
     s = Solution()
     n = 4
-    flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]]
+    flights = [[0, 1, 100], [1, 2, 100], [2, 0, 100], [1, 3, 600], [2, 3, 200]]
 
     src = 0
     dst = 3
