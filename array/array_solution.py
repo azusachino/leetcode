@@ -476,6 +476,16 @@ class Solution:
         # simply calculate for each bar
         return sum(max(min(max_left[i], max_right[i]) - h[i], 0) for i in range(n))
 
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = []
+        for n in nums:
+            i = bisect_left(dp, n)
+            if i == len(dp):
+                dp.append(n)
+            else:
+                dp[i] = n
+        return len(dp)
+
 
 if __name__ == "__main__":
     solution = Solution()
